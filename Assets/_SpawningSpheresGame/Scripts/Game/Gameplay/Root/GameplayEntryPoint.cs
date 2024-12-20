@@ -15,6 +15,7 @@ namespace SpawningSpheresGame.Game.Gameplay.Root
 
         public Observable<GameplayExitParams> Run(DiContainer gameplayContainer, GameplayEnterParams enterParams)
         {
+            GameplayRegistrations.Register(gameplayContainer, enterParams);
             var UIRoot = gameplayContainer.Resolve<UIRootView>();
             var UIScene = Instantiate(_sceneUIRootPrefab);
             UIRoot.AttachSceneUI(UIScene.gameObject);
@@ -25,6 +26,7 @@ namespace SpawningSpheresGame.Game.Gameplay.Root
             var mainMenuEnterParams = new MainMenuEnterParams("mainMenuEnterParamsTestString");
             var exitParams = new GameplayExitParams(mainMenuEnterParams);
             var exitToMainMenuSceneSignal = exitSceneSignalSubj.Select(_ => exitParams);
+
             return exitToMainMenuSceneSignal;
         }
     }

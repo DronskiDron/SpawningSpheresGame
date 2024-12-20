@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 using R3;
+using SpawningSpheresGame.Game.MainMenu.Root;
 
 namespace SpawningSpheresGame.Game.GameRoot
 {
@@ -89,7 +90,28 @@ namespace SpawningSpheresGame.Game.GameRoot
 
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
+            _UIRoot.ShowLoadingScreen();
+            _cachedSceneContainer?.FlushBindings();
+
+            yield return LoadScene(Scenes.BOOT);
+            yield return LoadScene(Scenes.MAIN_MENU);
+
             yield return new WaitForSeconds(1f);
+
+            var sceneEntryPoint = Object.FindObjectOfType<MainMenuEntryPoint>();
+            var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
+            sceneEntryPoint.Run(mainMenuContainer, enterParams).Subscribe(mainMenuExitParams =>
+            {
+                var targetSceneName = mainMenuExitParams.TargetSceneEnterParams.SceneName;
+
+                if (targetSceneName == Scenes.GAMEPLAY)
+                {
+                    _coroutines.StartCoroutine(LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.
+                    As<GameplayEnterParams>()));
+                }
+            });
+
+            _UIRoot.HideLoadingScreen();
         }
 
 

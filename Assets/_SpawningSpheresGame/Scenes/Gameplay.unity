@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465432281}
   m_Layer: 0
-  m_Name: LightSystem
+  m_Name: LightsSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -491,6 +491,6 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1765109558}
   - {fileID: 465432281}
+  - {fileID: 1765109558}
   - {fileID: 1950833432}
