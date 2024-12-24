@@ -11,6 +11,7 @@ namespace SpawningSpheresGame.Game.Gameplay.Root
     public class GameplayEntryPoint : MonoBehaviour
     {
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
+        [SerializeField] private WorldGameplayRootBinder _worldRootBinder;
 
 
         public Observable<GameplayExitParams> Run(DiContainer gameplayContainer, GameplayEnterParams enterParams)
@@ -22,6 +23,7 @@ namespace SpawningSpheresGame.Game.Gameplay.Root
 
             var exitSceneSignalSubj = new Subject<Unit>();
             UIScene.Bind(exitSceneSignalSubj);
+            _worldRootBinder.Bind(gameplayContainer);
 
             var mainMenuEnterParams = new MainMenuEnterParams("mainMenuEnterParamsTestString");
             var exitParams = new GameplayExitParams(mainMenuEnterParams);

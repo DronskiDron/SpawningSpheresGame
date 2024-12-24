@@ -14,4 +14,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SpawningSpheresGame/Scenes/MainMenu.unity
     guid: 226027b49b88bdc489218f40d4b9b4f0
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: ff81875a526d7d947b4085fb163a6c9b, type: 2}
