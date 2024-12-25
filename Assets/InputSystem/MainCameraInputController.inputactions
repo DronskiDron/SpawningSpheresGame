@@ -1,0 +1,62 @@
+{
+    "name": "CameraZoomClassic",
+    "maps": [
+        {
+            "name": "Camera",
+            "id": "19dc01a1-1fdb-46a8-8a2a-288d91b0e2cc",
+            "actions": [
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "c1fca17f-30ee-4702-ac2f-4c7fcfd0eb53",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "467b1517-456b-444a-81ad-72b9eb4507f9",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61b34540-d8f4-4ae0-a325-22c3dde700a8",
+                    "path": "<Keyboard>/w",
+                    "interactions": "Press",
+                    "processors": "Scale",
+                    "groups": "PC",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba4d4770-5a34-44ca-9c72-b775e9dbf7e0",
+                    "path": "<Keyboard>/s",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "PC",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": []
+        }
+    ]
+}

@@ -9,7 +9,7 @@ namespace SpawningSpheresGame.PrefabPrefabsStorage.RTS_camera.CameraZoom.Classic
 
         private IZoomHandler _zoomHandler;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _zoomHandler = _camera.orthographic
                 ? new OrthographicCameraZoomHandler(_camera, _zoomProperties)
