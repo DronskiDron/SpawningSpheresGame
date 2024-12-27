@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Zenject;
 using R3;
 using SpawningSpheresGame.Game.MainMenu.Root;
+using SpawningSpheresGame.Game.Settings;
 
 namespace SpawningSpheresGame.Game.GameRoot
 {
@@ -37,11 +38,16 @@ namespace SpawningSpheresGame.Game.GameRoot
             _UIRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_UIRoot.gameObject);
             _rootContainer.BindInstance(_UIRoot).AsSingle();
+
+            var settingsProvider = new SettingsProvider();
+            _rootContainer.BindInstance<ISettingsProvider>(settingsProvider).AsSingle();
         }
 
 
-        private void RunGame()
+        private async void RunGame()
         {
+            await _rootContainer.Resolve<ISettingsProvider>().LoadGameSettings();
+
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a7cdcecd2fd5104ca9389f264f3c3a8, type: 3}
+  m_Name: PrefabsStorage
+  m_EditorClassIdentifier: 
+  _prefabsList:
+  - _id: GameplayCamera
+    _prefab: {fileID: 0}
+    _prefabData:
+      _id: GameplayCamera
+      _transformPresets:
+      - _presetId: GameplayCameraStartPos
+        _position: {x: 585, y: 244, z: 0}
+        _rotation: {x: 0.14191155, y: -0.69272006, z: 0.14191155, w: 0.69272006}
+        _scale: {x: 1, y: 1, z: 1}
+  - _id: MenuCamera
+    _prefab: {fileID: 0}
+    _prefabData:
+      _id: MenuCamera
+      _transformPresets:
+      - _presetId: GameplayCameraStartPos
+        _position: {x: 585, y: 244, z: 0}
+        _rotation: {x: 0.14191155, y: -0.69272006, z: 0.14191155, w: 0.69272006}
+        _scale: {x: 1, y: 1, z: 1}
