@@ -9,6 +9,11 @@ using Zenject;
 using R3;
 using SpawningSpheresGame.Game.MainMenu.Root;
 using SpawningSpheresGame.Game.Settings;
+using SpawningSpheresGame.Game.State;
+using SpawningSpheresGame.Utils.JsonSerialization;
+using SpawningSpheresGame.Game.Settings.Controlls;
+using SpawningSpheresGame.Utils.DI;
+using SpawningSpheresGame.Game.GameRoot.RootManagers;
 
 namespace SpawningSpheresGame.Game.GameRoot
 {
@@ -20,14 +25,13 @@ namespace SpawningSpheresGame.Game.GameRoot
         private DiContainer _rootContainer = new();
         private DiContainer _cachedSceneContainer;
 
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
         {
             _instance = new GameEntryPoint();
+            JsonProjectSettings.ApplyProjectSerializationSettings();
             _instance.RunGame();
         }
-
 
         public GameEntryPoint()
         {
@@ -41,8 +45,19 @@ namespace SpawningSpheresGame.Game.GameRoot
 
             var settingsProvider = new SettingsProvider();
             _rootContainer.BindInstance<ISettingsProvider>(settingsProvider).AsSingle();
-        }
 
+            var gameStateProvider = new PlayerPrefsGameStateProvider();
+            gameStateProvider.LoadSettingsState();
+
+            _rootContainer.BindInstance<IGameStateProvider>(gameStateProvider);
+
+            var rootSceneContainersManager = new RootSceneContainersManager(_rootContainer);
+            _rootContainer.BindInstance(rootSceneContainersManager);
+
+            InitInput();
+
+            Application.quitting += OnApplicationQuitHandler;
+        }
 
         private async void RunGame()
         {
@@ -72,16 +87,24 @@ namespace SpawningSpheresGame.Game.GameRoot
             _coroutines.StartCoroutine(LoadAndStartMainMenu());
         }
 
-
         private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams)
         {
             _UIRoot.ShowLoadingScreen();
-            _cachedSceneContainer?.FlushBindings();
+
+            if (_cachedSceneContainer != null)
+            {
+                _cachedSceneContainer.DisposeAndFlush();
+                _cachedSceneContainer = null;
+            }
 
             yield return LoadScene(Scenes.BOOT);
             yield return LoadScene(Scenes.GAMEPLAY);
 
             yield return new WaitForSeconds(1f);
+
+            var isGameStateLoaded = false;
+            _rootContainer.Resolve<IGameStateProvider>().LoadGameState().Subscribe(_ => isGameStateLoaded = true);
+            yield return new WaitUntil(() => isGameStateLoaded);
 
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
@@ -93,11 +116,15 @@ namespace SpawningSpheresGame.Game.GameRoot
             _UIRoot.HideLoadingScreen();
         }
 
-
         private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
             _UIRoot.ShowLoadingScreen();
-            _cachedSceneContainer?.FlushBindings();
+
+            if (_cachedSceneContainer != null)
+            {
+                _cachedSceneContainer.DisposeAndFlush();
+                _cachedSceneContainer = null;
+            }
 
             yield return LoadScene(Scenes.BOOT);
             yield return LoadScene(Scenes.MAIN_MENU);
@@ -120,10 +147,32 @@ namespace SpawningSpheresGame.Game.GameRoot
             _UIRoot.HideLoadingScreen();
         }
 
-
         private IEnumerator LoadScene(string sceneName)
         {
             yield return SceneManager.LoadSceneAsync(sceneName);
+        }
+
+        private void InitInput()
+        {
+            var inputActions = new ApplicationInputController();
+            _rootContainer.BindInstance(inputActions).AsSingle();
+
+            var inputManager = new InputSchemeManager(inputActions.asset);
+            inputManager.AutoDetectScheme();
+            // inputManager.SetControlScheme(ControlSchemes.Mobile);
+
+            inputActions.Enable();
+        }
+
+        private void OnApplicationQuitHandler()
+        {
+            if (_cachedSceneContainer != null)
+            {
+                _cachedSceneContainer.DisposeAndFlush();
+                _cachedSceneContainer = null;
+            }
+
+            _rootContainer.DisposeAndFlush();
         }
     }
 }

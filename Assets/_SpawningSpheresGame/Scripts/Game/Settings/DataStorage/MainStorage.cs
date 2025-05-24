@@ -6,5 +6,6 @@ namespace SpawningSpheresGame.Game.Settings.DataStorage
     public class MainStorage : ScriptableObject
     {
         public PrefabsStorage PrefabsStorage;
+        public ConfigsStorage ConfigsStorage;
     }
 }

@@ -7,12 +7,10 @@ namespace SpawningSpheresGame.Game.MainMenu.Root.View
     {
         private Subject<Unit> _exitSceneSignalSubj;
 
-
         public void HandleGoToGameplayButtonClick()
         {
             _exitSceneSignalSubj?.OnNext(Unit.Default);
         }
-
 
         public void Bind(Subject<Unit> exitSceneSignalSubj)
         {

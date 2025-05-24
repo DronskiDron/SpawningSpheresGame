@@ -13,21 +13,54 @@ MonoBehaviour:
   m_Name: PrefabsStorage
   m_EditorClassIdentifier: 
   _prefabsList:
-  - _id: GameplayCamera
-    _prefab: {fileID: 0}
-    _prefabData:
-      _id: GameplayCamera
-      _transformPresets:
-      - _presetId: GameplayCameraStartPos
-        _position: {x: 585, y: 244, z: 0}
-        _rotation: {x: 0.14191155, y: -0.69272006, z: 0.14191155, w: 0.69272006}
-        _scale: {x: 1, y: 1, z: 1}
-  - _id: MenuCamera
-    _prefab: {fileID: 0}
-    _prefabData:
-      _id: MenuCamera
-      _transformPresets:
-      - _presetId: GameplayCameraStartPos
-        _position: {x: 585, y: 244, z: 0}
-        _rotation: {x: 0.14191155, y: -0.69272006, z: 0.14191155, w: 0.69272006}
-        _scale: {x: 1, y: 1, z: 1}
+  - _id: 1
+    _prefab: {fileID: 4492948521254196718, guid: ba739e3f0f9f1cd478502141d0a77228, type: 3}
+    _transformPresets: []
+    CustomData:
+    - Type: 3
+      Data:
+        rid: 1381617888373506048
+    - Type: 2
+      Data:
+        rid: 1381617888373506049
+  - _id: 2
+    _prefab: {fileID: 5431380204356496707, guid: e235194eb9d5f6c4b8a51c31f33d560e, type: 3}
+    _transformPresets: []
+    CustomData:
+    - Type: 1
+      Data:
+        rid: 1381617888373506050
+  references:
+    version: 2
+    RefIds:
+    - rid: 1381617888373506048
+      type: {class: ZoomCameraData, ns: SpawningSpheresGame.Game.Settings.DataStorage, asm: Assembly-CSharp}
+      data:
+        Type: 3
+        _startTransform:
+          _position: {x: 0, y: 310, z: -425}
+          _rotation: {x: 0.3502074, y: 0, z: 0, w: 0.9366722}
+          _scale: {x: 1, y: 1, z: 1}
+        _startZoomValue:
+          _fieldOfView: 60
+          _orthographicSize: 250
+    - rid: 1381617888373506049
+      type: {class: MoveCameraData, ns: SpawningSpheresGame.Game.Settings.DataStorage, asm: Assembly-CSharp}
+      data:
+        Type: 2
+        _startTransform:
+          _position: {x: 0, y: 310, z: -425}
+          _rotation: {x: 0.3502074, y: 0, z: 0, w: 0.9366722}
+          _scale: {x: 1, y: 1, z: 1}
+    - rid: 1381617888373506050
+      type: {class: PlayerData, ns: SpawningSpheresGame.Game.Settings.DataStorage, asm: Assembly-CSharp}
+      data:
+        Type: 1
+        _startTransform:
+          _position: {x: 0, y: 20, z: -41.35}
+          _rotation: {x: 0, y: 0, z: 0, w: 0}
+          _scale: {x: 1, y: 1, z: 1}
+        _startCameraOffset:
+          _position: {x: 0, y: 1.1, z: -3}
+          _rotation: {x: 0, y: 0, z: 0, w: 0}
+          _scale: {x: 0, y: 0, z: 0}
