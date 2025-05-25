@@ -1,0 +1,7 @@
+*.cs text eol=crlf
+*.meta text eol=crlf
+*.prefab text eol=crlf
+*.unity text eol=crlf
+*.asset binary
+*.cubemap binary
+*.unitypackage binary
