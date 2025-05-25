@@ -5,7 +5,7 @@ namespace NavMeshMyTest
 {
     public class AgentController : MonoBehaviour
     {
-        [SerializeField] private Transform target;
+        // [SerializeField] private Transform target;
         private NavMeshAgent agent;
 
         void Start()
@@ -24,10 +24,10 @@ namespace NavMeshMyTest
                 }
             }
 
-            if (target != null)
-            {
-                agent.SetDestination(target.position);
-            }
+            // if (target != null)
+            // {
+            //     agent.SetDestination(target.position);
+            // }
         }
     }
 }
