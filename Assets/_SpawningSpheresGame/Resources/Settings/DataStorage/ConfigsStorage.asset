@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddef3314eb3b2549b2bba58d766ec01, type: 3}
+  m_Name: ConfigsStorage
+  m_EditorClassIdentifier: 
+  _zoomRtsCameraConfig:
+    _configName: Unnamed Config
+    _description: 
+    _cameraPresetList:
+    - Id: 0
+      _zoomProperties:
+        ZoomSpeed: 5
+        Smoothness: 0.2
+        ZoomMin: 3
+        ZoomMax: 60
+        VerticalMultiplayer: 0.01
+    - Id: 1
+      _zoomProperties:
+        ZoomSpeed: 5
+        Smoothness: 0.2
+        ZoomMin: 3
+        ZoomMax: 60
+        VerticalMultiplayer: 0.01
+  _moveRtsCameraConfig:
+    _configName: Unnamed Config
+    _description: 
+    _cameraPresetList:
+    - Id: 0
+      _cameraMovementProperties:
+        _speed: 4
+        _smoothness: 0.2
+        _mouseSensitivity: 0.02
+        _keyboardSensitivity: 0.06
+        _rotationSpeed: 30
+    - Id: 1
+      _cameraMovementProperties:
+        _speed: 4
+        _smoothness: 0.2
+        _mouseSensitivity: 0.03
+        _keyboardSensitivity: 0.5
+        _rotationSpeed: 30
+  _cameraConfig:
+    _cameraPresetList:
+    - Id: 0
+      _zoomProperties:
+        ZoomSpeed: 5
+        Smoothness: 0.2
+        ZoomMin: 3
+        ZoomMax: 60
+        VerticalMultiplayer: 0.01
+      _cameraMovementProperties:
+        Speed: 4
+        Smoothness: 0.2
+        MouseSensitivity: 0.02
+        KeyboardSensitivity: 0.06
+        RotationSpeed: 30
+    - Id: 1
+      _zoomProperties:
+        ZoomSpeed: 5
+        Smoothness: 0.2
+        ZoomMin: 3
+        ZoomMax: 60
+        VerticalMultiplayer: 0.01
+      _cameraMovementProperties:
+        Speed: 4
+        Smoothness: 0.2
+        MouseSensitivity: 0.02
+        KeyboardSensitivity: 0.5
+        RotationSpeed: 30
+  _playerConfig:
+    _configName: Unnamed Config
+    _description: 
+    _characterSettings:
+      MoveSpeed: 7
+      SprintSpeed: 15
+      MaxAcceleration: 20
+      LookSpeedX: 2
+      LookSpeedY: 2
+      UpperLookLimit: 80
+      LowerLookLimit: -80
+      JumpForce: 15
+      MaxJumpTime: 0.5
+      JumpHoldForce: 15
+      GravityMultiplier: 40
+    _firstPersonCameraHeight: 1.7
+    _interactionDistance: 3
+    _footstepInterval: 0.5
+    _footstepSounds: []
+  _advancedPlayerConfig:
+    _configName: Unnamed Config
+    _description: 
+    _characterSettings:
+      MoveSpeed: 7
+      SprintSpeed: 15
+      MaxAcceleration: 20
+      LookSpeedX: 2
+      LookSpeedY: 2
+      UpperLookLimit: 80
+      LowerLookLimit: -80
+      JumpForce: 15
+      MaxJumpTime: 0.5
+      JumpHoldForce: 15
+      GravityMultiplier: 40
+    _firstPersonCameraHeight: 1.7
+    _interactionDistance: 3
+    _footstepInterval: 0.5
+    _footstepSounds: []
+    _specialPower: 20
+    _extraLives: 10
+    _abilities:
+    - SuperJump
+    - DoubleSpeed
+  _enemyConfig:
+    _configName: Unnamed Config
+    _description: 
+    _characterSettings:
+      MoveSpeed: 7
+      SprintSpeed: 15
+      MaxAcceleration: 20
+      LookSpeedX: 2
+      LookSpeedY: 2
+      UpperLookLimit: 80
+      LowerLookLimit: -80
+      JumpForce: 15
+      MaxJumpTime: 0.5
+      JumpHoldForce: 15
+      GravityMultiplier: 40
+  _testConfig:
+    _configName: Unnamed Config
+    _description: 
+    _enableDebugLogs: 0
