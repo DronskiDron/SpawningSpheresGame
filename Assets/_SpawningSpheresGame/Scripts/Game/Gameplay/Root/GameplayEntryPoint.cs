@@ -57,7 +57,7 @@ namespace SpawningSpheresGame.Game.Gameplay.Root
             uiSceneRootBinder.Bind(uiSceneRootViewModel);
 
             var uiManager = viewsContainer.Resolve<GameplayUIManager>();
-            uiManager.OpenScreenGameplay();
+            uiManager.OpenPlayerControlScreen();
         }
 
         private void InitTickManager(DiContainer gameplayContainer)

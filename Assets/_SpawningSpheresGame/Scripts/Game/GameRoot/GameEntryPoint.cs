@@ -1,8 +1,6 @@
-using System.Collections;
 using SpawningSpheresGame.Game.Gameplay.Root;
 using SpawningSpheresGame.Game.Gameplay.Root.GameplayParams;
 using SpawningSpheresGame.Game.MainMenu.Root.MainMenuParams;
-using SpawningSpheresGame.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -14,13 +12,13 @@ using SpawningSpheresGame.Utils.JsonSerialization;
 using SpawningSpheresGame.Game.Settings.Controlls;
 using SpawningSpheresGame.Utils.DI;
 using SpawningSpheresGame.Game.GameRoot.RootManagers;
+using Cysharp.Threading.Tasks;
 
 namespace SpawningSpheresGame.Game.GameRoot
 {
     public class GameEntryPoint
     {
         private static GameEntryPoint _instance;
-        private Coroutines _coroutines;
         private UIRootView _UIRoot;
         private DiContainer _rootContainer = new();
         private DiContainer _cachedSceneContainer;
@@ -30,14 +28,11 @@ namespace SpawningSpheresGame.Game.GameRoot
         {
             _instance = new GameEntryPoint();
             JsonProjectSettings.ApplyProjectSerializationSettings();
-            _instance.RunGame();
+            _instance.RunGame().Forget();
         }
 
         public GameEntryPoint()
         {
-            _coroutines = new GameObject("[COROUTINES]").AddComponent<Coroutines>();
-            Object.DontDestroyOnLoad(_coroutines.gameObject);
-
             var prefabUIRoot = Resources.Load<UIRootView>("UIRoot");
             _UIRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_UIRoot.gameObject);
@@ -59,7 +54,7 @@ namespace SpawningSpheresGame.Game.GameRoot
             Application.quitting += OnApplicationQuitHandler;
         }
 
-        private async void RunGame()
+        private async UniTask RunGame()
         {
             await _rootContainer.Resolve<ISettingsProvider>().LoadGameSettings();
 
@@ -69,13 +64,13 @@ namespace SpawningSpheresGame.Game.GameRoot
             if (sceneName == Scenes.GAMEPLAY)
             {
                 var enterParams = new GameplayEnterParams();
-                _coroutines.StartCoroutine(LoadAndStartGameplay(enterParams));
+                LoadAndStartGameplay(enterParams).Forget();
                 return;
             }
 
             if (sceneName == Scenes.MAIN_MENU)
             {
-                _coroutines.StartCoroutine(LoadAndStartMainMenu());
+                LoadAndStartMainMenu().Forget();
                 return;
             }
 
@@ -84,10 +79,10 @@ namespace SpawningSpheresGame.Game.GameRoot
                 return;
             }
 #endif
-            _coroutines.StartCoroutine(LoadAndStartMainMenu());
+            LoadAndStartMainMenu().Forget();
         }
 
-        private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams)
+        private async UniTaskVoid LoadAndStartGameplay(GameplayEnterParams enterParams)
         {
             _UIRoot.ShowLoadingScreen();
 
@@ -97,26 +92,26 @@ namespace SpawningSpheresGame.Game.GameRoot
                 _cachedSceneContainer = null;
             }
 
-            yield return LoadScene(Scenes.BOOT);
-            yield return LoadScene(Scenes.GAMEPLAY);
+            await LoadScene(Scenes.BOOT);
+            await LoadScene(Scenes.GAMEPLAY);
 
-            yield return new WaitForSeconds(1f);
+            await UniTask.Delay(1000);
 
             var isGameStateLoaded = false;
             _rootContainer.Resolve<IGameStateProvider>().LoadGameState().Subscribe(_ => isGameStateLoaded = true);
-            yield return new WaitUntil(() => isGameStateLoaded);
+            await UniTask.WaitUntil(() => isGameStateLoaded);
 
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
             sceneEntryPoint.Run(gameplayContainer, enterParams).Subscribe(gameplayExitParams =>
             {
-                _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParams.MainMenuEnterParams));
+                LoadAndStartMainMenu(gameplayExitParams.MainMenuEnterParams).Forget();
             });
 
             _UIRoot.HideLoadingScreen();
         }
 
-        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
+        private async UniTaskVoid LoadAndStartMainMenu(MainMenuEnterParams enterParams = null)
         {
             _UIRoot.ShowLoadingScreen();
 
@@ -126,10 +121,10 @@ namespace SpawningSpheresGame.Game.GameRoot
                 _cachedSceneContainer = null;
             }
 
-            yield return LoadScene(Scenes.BOOT);
-            yield return LoadScene(Scenes.MAIN_MENU);
+            await LoadScene(Scenes.BOOT);
+            await LoadScene(Scenes.MAIN_MENU);
 
-            yield return new WaitForSeconds(1f);
+            await UniTask.Delay(1000);
 
             var sceneEntryPoint = Object.FindObjectOfType<MainMenuEntryPoint>();
             var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
@@ -139,17 +134,17 @@ namespace SpawningSpheresGame.Game.GameRoot
 
                 if (targetSceneName == Scenes.GAMEPLAY)
                 {
-                    _coroutines.StartCoroutine(LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.
-                    As<GameplayEnterParams>()));
+                    LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.
+                    As<GameplayEnterParams>()).Forget();
                 }
             });
 
             _UIRoot.HideLoadingScreen();
         }
 
-        private IEnumerator LoadScene(string sceneName)
+        private async UniTask LoadScene(string sceneName)
         {
-            yield return SceneManager.LoadSceneAsync(sceneName);
+            await SceneManager.LoadSceneAsync(sceneName);
         }
 
         private void InitInput()
